@@ -1,0 +1,23 @@
+services: 
+  mysql_ctn_final:
+    build:
+      context: .
+      dockerfile: Dockerfile.final_db
+    container_name: mysql_ctn_final
+    environment:
+      MYSQL_ROOT_PASSWORD: 6equj5_root
+      MYSQL_DATABASE: home_db
+      MYSQL_USER: db_user
+      MYSQL_PASSWORD: 6equj5_db_user
+    volumes:
+      - mysql_vol_2:/var/lib/mysql:rw
+    ports:
+      - 3306:3306
+    networks:
+      - app_net_2
+
+networks:
+  app_net_2:
+
+volumes:
+  mysql_vol_2:

@@ -1,0 +1,45 @@
+# services: 
+#   mysql_ctn:
+#     build:
+#       context: .
+#       dockerfile: Dockerfile.initial_db
+#     container_name: mysql_ctn
+#     environment:
+#       MYSQL_ROOT_PASSWORD: 6equj5_root
+#       MYSQL_DATABASE: home_db
+#       MYSQL_USER: db_user
+#       MYSQL_PASSWORD: 6equj5_db_user
+#     volumes:
+#       - mysql_vol:/var/lib/mysql:rw
+#     ports:
+#       - 3306:3306
+#     networks:
+#       - app_net
+
+# networks:
+#   app_net:
+
+# volumes:
+#   mysql_vol:
+
+
+############################### new ####################################
+
+
+version: "3.8"
+
+services:
+  mysql:
+    image: mysql:latest
+    container_name: mysql-container
+    environment:
+      MYSQL_ROOT_PASSWORD: babu
+      # uncomment below if you want to automatically create and select a database
+      MYSQL_DATABASE: home_db
+    ports:
+      - "3080:3306"
+    volumes:
+      - mysql-data:/var/lib/mysql
+
+volumes:
+  mysql-data:
