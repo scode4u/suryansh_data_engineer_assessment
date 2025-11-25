@@ -1,5 +1,5 @@
-from pydantic import BaseModel
-from typing import Optional, List
+from pydantic import BaseModel, field_validator
+from typing import Optional, List, Union
 
 
 class ValuationItem(BaseModel):
@@ -39,7 +39,7 @@ class PropertyRecord(BaseModel):
     City: Optional[str] = None
     State: Optional[str] = None
     Zip: Optional[str] = None
-    SQFT_Total: Optional[str] = None
+    SQFT_Total: Union[str, int, None] = None
     Bed: Optional[int] = None
     Bath: Optional[int] = None
     Year_Built: Optional[int] = None
@@ -49,6 +49,13 @@ class PropertyRecord(BaseModel):
     Valuation: List[ValuationItem] = []
     HOA: List[HOAItem] = []
     Rehab: List[RehabItem] = []
+
+    @field_validator("SQFT_Total", mode="before")
+    def normalize_sqft(cls, v):
+        """Convert int to string, allow None."""
+        if v is None:
+            return None
+        return str(v)
 
     class Config:
         extra = "allow"

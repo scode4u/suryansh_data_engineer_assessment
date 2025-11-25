@@ -1,0 +1,41 @@
+version: "3.9"
+
+services:
+
+  mysql_db:
+    image: mysql:8.0
+    container_name: mysql_container
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: root123
+      MYSQL_DATABASE: home_db
+      MYSQL_USER: db_user
+      MYSQL_PASSWORD: 6equj5_db_user
+    # ports:
+    #   - "3306:3306"
+    ports:
+        - "3307:3306"
+    volumes:
+      - mysql_volume:/var/lib/mysql
+    networks:
+      - app_network
+
+  etl_service:
+    build: .
+    container_name: etl_container
+    depends_on:
+      - mysql_db
+    environment:
+      MYSQL_HOST: mysql_db
+      MYSQL_USER: db_user
+      MYSQL_PASSWORD: 6equj5_db_user
+      MYSQL_DATABASE: home_db
+    networks:
+      - app_network
+
+networks:
+  app_network:
+
+volumes:
+  mysql_volume:
+
